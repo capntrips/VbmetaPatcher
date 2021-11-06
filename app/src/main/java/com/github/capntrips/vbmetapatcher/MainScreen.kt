@@ -46,7 +46,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 @ExperimentalMaterial3Api
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel,
+    viewModel: MainViewModelInterface,
 ) {
     val isPatchedA by viewModel.isPatchedA.collectAsState()
     val isPatchedB by viewModel.isPatchedB.collectAsState()
@@ -173,7 +173,7 @@ fun MainScreen(
 @Composable
 fun MainScreenPreview() {
     VbmetaPatcherTheme {
-        val viewModel: MainViewModel = viewModel()
+        val viewModel: MainViewModelPreview = viewModel()
         MainScreen(
             viewModel = viewModel,
         )

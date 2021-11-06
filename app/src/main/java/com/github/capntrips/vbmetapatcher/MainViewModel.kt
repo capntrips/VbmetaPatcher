@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.File
 
-class MainViewModel : ViewModel() {
+class MainViewModel : ViewModel(), MainViewModelInterface {
     companion object {
         private const val TAG = "Vbmeta Patcher"
     }
@@ -22,16 +22,16 @@ class MainViewModel : ViewModel() {
     private var _isPatchedA : MutableStateFlow<Boolean>
     private var _isPatchedB : MutableStateFlow<Boolean>
 
-    val isRefreshing: StateFlow<Boolean>
+    override val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
 
-    val slotSuffix: String
+    override val slotSuffix: String
         get() = _slotSuffix
 
-    val isPatchedA: StateFlow<Boolean>
+    override val isPatchedA: StateFlow<Boolean>
         get() = _isPatchedA.asStateFlow()
 
-    val isPatchedB: StateFlow<Boolean>
+    override val isPatchedB: StateFlow<Boolean>
         get() = _isPatchedB.asStateFlow()
 
     init {
@@ -73,13 +73,13 @@ class MainViewModel : ViewModel() {
         _isPatchedB.value = getFlagsVbmetaB() == "03"
     }
 
-    fun refresh() {
+    override fun refresh() {
         launch {
             _refresh()
         }
     }
 
-    fun togglePatched() {
+    override fun togglePatched() {
         launch {
             // TODO: Compare with current state to avoid performing unexpected actions, if things changed externally
             _refresh()

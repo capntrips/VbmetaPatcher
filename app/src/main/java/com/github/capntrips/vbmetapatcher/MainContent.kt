@@ -29,7 +29,7 @@ import com.github.capntrips.vbmetapatcher.ui.theme.VbmetaPatcherTheme
 @ExperimentalMaterial3Api
 @Composable
 fun MainContent(
-    viewModel: MainViewModel,
+    viewModel: MainViewModelInterface,
 ) {
     Column {
         val isPatchedA by viewModel.isPatchedA.collectAsState()
@@ -125,7 +125,7 @@ fun IsPatchedDataPoint(
 @Composable
 fun ContentPreview() {
     VbmetaPatcherTheme {
-        val viewModel: MainViewModel = viewModel()
+        val viewModel: MainViewModelPreview = viewModel()
         MainContent(
             viewModel = viewModel,
         )
