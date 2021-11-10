@@ -5,14 +5,10 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 
 @Composable
-fun typography(
-    colorScheme: ColorScheme,
-) : Typography {
+fun typography(colorScheme: ColorScheme) : Typography {
     return Typography(
         labelMedium = Typography().labelMedium.copy(
-            color = colorScheme.onSurface.copy(
-                alpha = 0.667f,
-            ),
-        ),
+            color = colorScheme.onSurface.copy(alpha = 0.667f)
+        )
     )
 }

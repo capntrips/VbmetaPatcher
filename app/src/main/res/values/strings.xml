@@ -1,15 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Vbmeta Patcher</string>
     <string name="root_required">Root is required</string>
+    <string name="device">Device</string>
     <string name="model">Model</string>
     <string name="build_number">Build Number</string>
     <string name="slot_suffix">Slot Suffix</string>
+    <string name="status">Status</string>
     <string name="patched">Patched</string>
-    <string name="unpatched">Unpatched</string>
-    <string name="patch_button">Patch vbmeta</string>
-    <string name="restore_button">Restore vbmeta</string>
+    <string name="stock">Stock</string>
+    <string name="patch">Patch</string>
+    <string name="restore">Restore</string>
     <string name="warning">Warning</string>
-    <string name="do_not_reboot">Do not reboot while vbmeta is unpatched, or you will be forced to wipe your data.</string>
+    <string name="do_not_reboot">Do not reboot while vbmeta is stock, or you will be forced to wipe your data.</string>
     <string name="cancel">Cancel</string>
     <string name="proceed">Proceed</string>
 </resources>

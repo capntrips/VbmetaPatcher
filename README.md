@@ -4,12 +4,8 @@ Vbmeta Patcher is an Android app that toggles the disable flags of the vbmeta pa
 
 ## Usage
 
-If either `vbmeta_a` or `vbmeta_b` are unpatched, pressing the `Patch vbmeta` button will patch the unpatched partitions. If they are both patched, the `Restore vbmeta` button will restore the `vbmeta` partition in the active slot to the unpatched state.
+If `vbmeta` in either slot is stock, pressing the `Patch` button for a slot will patch it. If `vbmeta` in the active slot is patched, the `Restore` button will restore it to stock. No option is provided to restore the inactive slot to stock.
 
 ## External Links
 
-[avb_vbmeta_image.h](https://android.googlesource.com/platform/external/avb/+/master/libavb/avb_vbmeta_image.h)
-
-## Credits
-
-Thanks to [RikkaW](https://github.com/RikkaW), as Vbmeta Patcher's design is based heavily on [YASNAC](https://github.com/RikkaW/YASNAC)
+[avb_vbmeta_image.h](https://android.googlesource.com/platform/external/avb/+/refs/tags/android-12.0.0_r12/libavb/avb_vbmeta_image.h)

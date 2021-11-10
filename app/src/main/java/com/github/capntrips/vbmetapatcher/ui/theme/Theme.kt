@@ -16,7 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 fun VbmetaPatcherTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
     isDynamicColor: Boolean = true,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     val dynamicColor = isDynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val colorScheme = if (dynamicColor) {
@@ -35,9 +35,7 @@ fun VbmetaPatcherTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = typography(
-            colorScheme = colorScheme,
-        ),
-        content = content,
+        typography = typography(colorScheme),
+        content = content
     )
 }

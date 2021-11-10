@@ -9,14 +9,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModelPreview : ViewModel(), MainViewModelInterface {
-    private val _isRefreshing: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    private var _uiState: MutableStateFlow<DeviceStateInterface> = MutableStateFlow(DeviceStatePreview(_isRefreshing))
+class SlotStatePreview constructor(private val _isRefreshing : MutableStateFlow<Boolean>, isActive: Boolean) : ViewModel(), SlotStateInterface {
+    override var patchStatus: PatchStatus = if (isActive) PatchStatus.Patched else PatchStatus.Stock
+    override var sha1: String = "0a1b2c3d"
 
     override val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
-    override val uiState: StateFlow<DeviceStateInterface>
-        get() = _uiState.asStateFlow()
 
     private fun launch(block: suspend () -> Unit) {
         viewModelScope.launch {
@@ -29,7 +27,20 @@ class MainViewModelPreview : ViewModel(), MainViewModelInterface {
     override fun refresh(context: Context) {
         launch {
             delay(500)
-            uiState.value.refresh(context)
+        }
+    }
+
+    override fun patch(context: Context) {
+        launch {
+            delay(500)
+            patchStatus = PatchStatus.Patched
+        }
+    }
+
+    override fun restore(context: Context) {
+        launch {
+            delay(500)
+            patchStatus = PatchStatus.Stock
         }
     }
 }
