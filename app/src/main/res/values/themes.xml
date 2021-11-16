@@ -3,7 +3,7 @@
     <style name="Theme.MainSplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/ic_splash_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_animation</item>
-        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="windowSplashScreenAnimationDuration">750</item>
         <item name="postSplashScreenTheme">@style/Theme.Material3.DayNight.NoActionBar</item>
     </style>
 </resources>

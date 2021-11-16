@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
@@ -88,6 +89,7 @@ fun SlotCard(
     slotStateFlow: StateFlow<SlotStateInterface>,
     isActive: Boolean
 ) {
+    // TODO: hoist state?
     val slot by slotStateFlow.collectAsState()
     val isRefreshing by slot.isRefreshing.collectAsState()
     DataCard (
@@ -243,6 +245,7 @@ fun Card(
 fun DataRow(
     label: String,
     value: String,
+    valueColor: Color = Color.Unspecified,
     valueStyle: TextStyle = MaterialTheme.typography.titleSmall
 ) {
     Row {
@@ -252,11 +255,14 @@ fun DataRow(
             style = MaterialTheme.typography.labelMedium
         )
         Spacer(Modifier.width(8.dp))
-        Text(
-            modifier = Modifier.alignByBaseline(),
-            text = value,
-            style = valueStyle
-        )
+        SelectionContainer {
+            Text(
+                modifier = Modifier.alignByBaseline(),
+                text = value,
+                color = valueColor,
+                style = valueStyle
+            )
+        }
     }
 }
 
@@ -266,21 +272,11 @@ fun HasStatusDataRow(
     value: String,
     hasStatus: Boolean
 ) {
-    Row {
-        val color = if (hasStatus) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
-        Text(
-            modifier = Modifier.alignByBaseline(),
-            text = label,
-            style = MaterialTheme.typography.labelMedium
-        )
-        Spacer(Modifier.width(8.dp))
-        Text(
-            modifier = Modifier.alignByBaseline(),
-            text = value,
-            style = MaterialTheme.typography.titleSmall,
-            color = color
-        )
-    }
+    DataRow(
+        label = label,
+        value = value,
+        valueColor = if (hasStatus) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+    )
 }
 
 @Composable
@@ -288,10 +284,9 @@ fun IsPatchedDataRow(
     label: String,
     isPatched: Boolean
 ) {
-    val text = stringResource(if (isPatched) R.string.patched else R.string.stock)
     HasStatusDataRow(
         label = label,
-        value = text,
+        value = stringResource(if (isPatched) R.string.patched else R.string.stock),
         hasStatus = isPatched
     )
 }
