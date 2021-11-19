@@ -10,8 +10,8 @@ android {
         applicationId "com.github.capntrips.vbmetapatcher"
         minSdk 31
         targetSdk 31
-        versionCode 3
-        versionName "1.0.0-alpha03"
+        versionCode 4
+        versionName "1.0.0-alpha04"
 
         vectorDrawables {
             useSupportLibrary true
