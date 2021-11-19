@@ -255,7 +255,7 @@ fun DataRow(
             style = MaterialTheme.typography.labelMedium
         )
         Spacer(Modifier.width(8.dp))
-        SelectionContainer {
+        SelectionContainer(Modifier.alignByBaseline()) {
             Text(
                 modifier = Modifier.alignByBaseline(),
                 text = value,
