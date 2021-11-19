@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.res.stringResource
 import androidx.core.animation.doOnEnd
 import androidx.core.view.WindowCompat
 import com.github.capntrips.vbmetapatcher.ui.theme.VbmetaPatcherTheme
@@ -23,6 +24,8 @@ import com.topjohnwu.superuser.Shell
 
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
+    private lateinit var mainListener: MainListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,7 +51,6 @@ class MainActivity : ComponentActivity() {
             scale.start()
         }
 
-        val viewModel: MainViewModel by viewModels { MainViewModelFactory(this) }
         setContent {
             VbmetaPatcherTheme {
                 val systemUiController = rememberSystemUiController()
@@ -63,14 +65,29 @@ class MainActivity : ComponentActivity() {
                     Shell.getShell()
                     if (Shell.rootAccess()) {
                         Shell.su("cd $filesDir").exec()
-                        MainScreen(viewModel)
+                        val viewModel: MainViewModel by viewModels { MainViewModelFactory(this) }
+                        if (!viewModel.hasError) {
+                            mainListener = MainListener {
+                                viewModel.refresh(this)
+                            }
+                            MainScreen(viewModel)
+                        } else {
+                            ErrorScreen(viewModel.error)
+                        }
                     } else {
                         Scaffold {
-                            ErrorScreen()
+                            ErrorScreen(stringResource(R.string.root_required))
                         }
                     }
                 }
             }
+        }
+    }
+
+    public override fun onResume() {
+        super.onResume()
+        if (this::mainListener.isInitialized) {
+            mainListener.resume()
         }
     }
 }

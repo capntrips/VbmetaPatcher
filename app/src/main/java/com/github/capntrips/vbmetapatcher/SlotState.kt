@@ -16,6 +16,8 @@ import java.io.File
 class SlotState(context: Context, private val vbmeta: File, private val _isRefreshing : MutableStateFlow<Boolean>, private val isImage: Boolean = false) : ViewModel(), SlotStateInterface {
     companion object {
         const val TAG: String = "VbmetaPatcher/SlotState"
+        const val MAGIC: String = "AVB0"
+        const val AVBTOOL: String = "avbtool"
     }
 
     override lateinit var patchStatus: PatchStatus
@@ -111,11 +113,11 @@ class SlotState(context: Context, private val vbmeta: File, private val _isRefre
 
     private fun hasMagic() : Boolean {
         // https://android.googlesource.com/platform/external/avb/+/refs/tags/android-12.0.0_r12/libavb/avb_vbmeta_image.h#126
-        return Shell.su("dd if=$vbmeta bs=1 count=4 status=none").exec().out[0] == "AVB0"
+        return Shell.su("dd if=$vbmeta bs=1 count=4 status=none").exec().out[0] == MAGIC
     }
 
     private fun hasAvbRelease() : Boolean {
         // https://android.googlesource.com/platform/external/avb/+/refs/tags/android-12.0.0_r12/libavb/avb_vbmeta_image.h#186
-        return Shell.su("dd if=$vbmeta bs=1 skip=128 count=48 status=none").exec().out[0].startsWith("avbtool")
+        return Shell.su("dd if=$vbmeta bs=1 skip=128 count=48 status=none").exec().out[0].startsWith(AVBTOOL)
     }
 }

@@ -25,7 +25,7 @@ import com.github.capntrips.vbmetapatcher.ui.theme.VbmetaPatcherTheme
 
 @ExperimentalMaterial3Api
 @Composable
-fun ErrorScreen() {
+fun ErrorScreen(message: String) {
     Scaffold {
         Box(
             contentAlignment = Alignment.Center,
@@ -38,11 +38,11 @@ fun ErrorScreen() {
                         .height(36.dp),
                     imageVector = Icons.Filled.Warning,
                     tint = Orange500,
-                    contentDescription = stringResource(R.string.root_required)
+                    contentDescription = message
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    text = stringResource(R.string.root_required),
+                    text = message,
                     style = MaterialTheme.typography.titleLarge
                 )
             }
@@ -65,6 +65,6 @@ fun ErrorScreenPreviewDark() {
 @Composable
 fun ErrorScreenPreviewLight() {
     VbmetaPatcherTheme {
-        ErrorScreen()
+        ErrorScreen(stringResource(R.string.root_required))
     }
 }
