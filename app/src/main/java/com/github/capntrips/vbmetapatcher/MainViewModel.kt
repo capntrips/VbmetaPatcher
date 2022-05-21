@@ -13,6 +13,7 @@ class MainViewModel constructor(context: Context) : ViewModel(), MainViewModelIn
     private val _isRefreshing: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private lateinit var _uiState: MutableStateFlow<DeviceStateInterface>
     private var _error: String? = null
+    private var _exception: Exception? = null
 
     override val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
@@ -22,12 +23,17 @@ class MainViewModel constructor(context: Context) : ViewModel(), MainViewModelIn
         get() = _error != null
     val error: String
         get() = _error ?: "Unknown Error"
+    val hasException: Boolean
+        get() = _exception != null
+    val exception: Exception
+        get() = _exception ?: Exception("Unknown Exception")
 
     init {
         try {
             _uiState = MutableStateFlow(DeviceState(context, _isRefreshing))
         } catch (e: Exception) {
             _error = e.message
+            _exception = e
         }
     }
 
@@ -45,6 +51,7 @@ class MainViewModel constructor(context: Context) : ViewModel(), MainViewModelIn
                 uiState.value.refresh(context)
             } catch (e: Exception) {
                 _error = e.message
+                _exception = e
             }
         }
     }

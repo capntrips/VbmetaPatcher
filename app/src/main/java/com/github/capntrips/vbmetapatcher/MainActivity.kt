@@ -66,13 +66,15 @@ class MainActivity : ComponentActivity() {
                     if (Shell.rootAccess()) {
                         Shell.su("cd $filesDir").exec()
                         val viewModel: MainViewModel by viewModels { MainViewModelFactory(this) }
-                        if (!viewModel.hasError) {
+                        if (viewModel.hasException) {
+                            ErrorScreen(viewModel.exception)
+                        } else if (viewModel.hasError) {
+                            ErrorScreen(viewModel.error)
+                        } else {
                             mainListener = MainListener {
                                 viewModel.refresh(this)
                             }
                             MainScreen(viewModel)
-                        } else {
-                            ErrorScreen(viewModel.error)
                         }
                     } else {
                         Scaffold {
