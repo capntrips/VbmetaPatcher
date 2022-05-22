@@ -63,23 +63,27 @@ fun MainContent(viewModel: MainViewModelInterface) {
                 label = stringResource(R.string.build_number),
                 value = Build.ID
             )
-            DataRow(
-                label = stringResource(R.string.slot_suffix),
-                value = uiState.slotSuffix
-            )
+            if (uiState.slotSuffix != null) {
+                DataRow(
+                    label = stringResource(R.string.slot_suffix),
+                    value = uiState.slotSuffix!!
+                )
+            }
         }
         Spacer(Modifier.height(16.dp))
         SlotCard(
-            title = "vbmeta_a",
+            title = if (uiState.slotSuffix != null) "vbmeta_a" else "vbmeta",
             slotStateFlow = uiState.slotA,
-            isActive = uiState.slotSuffix == "_a"
+            isActive = if (uiState.slotSuffix != null) uiState.slotSuffix == "_a" else true
         )
-        Spacer(Modifier.height(16.dp))
-        SlotCard(
-            title = "vbmeta_b",
-            slotStateFlow = uiState.slotB,
-            isActive = uiState.slotSuffix == "_b"
-        )
+        if (uiState.slotSuffix != null) {
+            Spacer(Modifier.height(16.dp))
+            SlotCard(
+                title = "vbmeta_b",
+                slotStateFlow = uiState.slotB!!,
+                isActive = uiState.slotSuffix == "_b"
+            )
+        }
     }
 }
 

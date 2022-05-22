@@ -153,6 +153,7 @@ class SlotState(context: Context, private val vbmeta: File, private val _isRefre
 
     private fun hasMagic(context: Context) : Boolean {
         // https://android.googlesource.com/platform/external/avb/+/refs/tags/android-12.0.0_r12/libavb/avb_vbmeta_image.h#126
+        Log.d(TAG, "dd if=$vbmeta bs=1 count=4 status=none")
         val magicResult = Shell.su("dd if=$vbmeta bs=1 count=4 status=none").exec()
         if (magicResult.out.isEmpty()) {
             log(context, "Failed to get magic", shouldThrow = true)

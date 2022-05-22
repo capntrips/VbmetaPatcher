@@ -7,17 +7,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class DeviceStatePreview constructor(_isRefreshing : MutableStateFlow<Boolean>) : ViewModel(), DeviceStateInterface {
-    private var _slotA: MutableStateFlow<SlotStateInterface> = MutableStateFlow(SlotStatePreview(_isRefreshing, false))
-    private var _slotB: MutableStateFlow<SlotStateInterface> = MutableStateFlow(SlotStatePreview(_isRefreshing, true))
-    override val slotSuffix: String = "_b"
+    private var _slotA: MutableStateFlow<SlotStateInterface> = MutableStateFlow(SlotStatePreview(_isRefreshing, true))
+    private var _slotB: MutableStateFlow<SlotStateInterface>? = null // MutableStateFlow(SlotStatePreview(_isRefreshing, true))
+    override val slotSuffix: String? = null // "_b"
 
     override val slotA: StateFlow<SlotStateInterface>
         get() = _slotA.asStateFlow()
-    override val slotB: StateFlow<SlotStateInterface>
-        get() = _slotB.asStateFlow()
+    override val slotB: StateFlow<SlotStateInterface>?
+        get() = null // _slotB.asStateFlow()
 
     override fun refresh(context: Context) {
         slotA.value.refresh(context)
-        slotB.value.refresh(context)
+        if (_slotB != null) {
+            slotB!!.value.refresh(context)
+        }
     }
 }
