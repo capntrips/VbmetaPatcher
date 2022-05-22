@@ -33,21 +33,9 @@ class DeviceState constructor(context: Context, _isRefreshing : MutableStateFlow
     }
 
     init {
-        // https://android.googlesource.com/platform/system/update_engine/+/refs/tags/android-12.0.0_r12/aosp/dynamic_partition_control_android.cc#393
-        // https://android.googlesource.com/platform/system/core/+/refs/tags/android-12.0.0_r12/fs_mgr/fs_mgr_fstab.cpp#416
-        // https://android.googlesource.com/platform/system/core/+/refs/tags/android-12.0.0_r12/fs_mgr/fs_mgr_boot_config.cpp#156
-        val hardwarePlatformResult = Shell.su("getprop ro.boot.hardware.platform").exec()
-        if (hardwarePlatformResult.out.isEmpty()) {
-            log(context, "Failed to get ro.boot.hardware.platform", shouldThrow = true)
-        }
-        val hardwarePlatform = hardwarePlatformResult.out[0]
-        val miscResult = Shell.su("cat /vendor/etc/fstab.$hardwarePlatform | grep /misc | awk '{ print \$1 }'").exec()
-        if (miscResult.out.isEmpty()) {
-            log(context, "Failed to find /misc", shouldThrow = true)
-        }
-        val misc = File(miscResult.out[0])
-        val vbmetaA = misc.resolveSibling("vbmeta_a")
-        val vbmetaB = misc.resolveSibling("vbmeta_b")
+        val byName = File("/dev/block/by-name/")
+        val vbmetaA = File(byName, "vbmeta_a")
+        val vbmetaB = File(byName, "vbmeta_b")
 
         // https://android.googlesource.com/device/google/gs101/+/refs/tags/android-12.0.0_r12/interfaces/boot/1.2/BootControl.cpp#194
         val slotSuffixResult = Shell.su("getprop ro.boot.slot_suffix").exec()
