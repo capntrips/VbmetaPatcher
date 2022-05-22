@@ -30,7 +30,7 @@ class DeviceState constructor(context: Context, _isRefreshing : MutableStateFlow
         // https://android.googlesource.com/device/google/gs101/+/refs/tags/android-12.0.0_r12/interfaces/boot/1.2/BootControl.cpp#194
         val slotSuffixResult = Shell.su("getprop ro.boot.slot_suffix").exec()
         @Suppress("LiftReturnOrAssignment")
-        if (slotSuffixResult.out.isEmpty()) {
+        if (slotSuffixResult.out.isEmpty() || slotSuffixResult.out[0].isEmpty()) {
             val vbmeta = File(byName, "vbmeta")
             _slotA = MutableStateFlow(SlotState(context, vbmeta, _isRefreshing))
             _slotB = null
